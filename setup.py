@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='django-common-objects',
     packages=find_packages(),
-    version='1.0.0',
+    version='1.0.1',
     install_requires=[
         "django>=3.2.18",
         "djangorestframework>=3.14.0",
