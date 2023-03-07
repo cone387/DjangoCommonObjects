@@ -4,6 +4,7 @@
 # datetime: 2023/2/25 11:40
 # software: PyCharm
 import json
+
 from django.forms import Widget, widgets
 from django.utils.safestring import mark_safe
 
@@ -12,10 +13,10 @@ class JSONWidget(widgets.Textarea):
 
     def format_value(self, value):
         try:
-            value = json.dumps(json.loads(value), indent=2, sort_keys=True)
+            value = json.dumps(json.loads(value), indent=2, sort_keys=True, ensure_ascii=False)
             # these lines will try to adjust size of TextArea to fit to content
             row_lengths = [len(r) for r in value.split('\n')]
-            self.attrs['rows'] = min(max(len(row_lengths) + 2, 10), 30)
+            self.attrs['rows'] = min(max(len(row_lengths) + 2, 10), 40)
             self.attrs['cols'] = min(max(max(row_lengths) + 2, 40), 120)
             return value
         except Exception as e:
