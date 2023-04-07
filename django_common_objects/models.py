@@ -51,7 +51,7 @@ class CommonCategory(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, db_constraint=False, on_delete=models.CASCADE,
                                related_name='children', verbose_name='父类别')
     name = models.CharField(max_length=50, verbose_name='名称')
-    config = ConfigField(default=get_default_config('CommonCategory'), blank=True, null=True, verbose_name='详细')
+    config = models.JSONField(default=get_default_config('CommonCategory'), blank=True, null=True, verbose_name='详细')
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, db_constraint=False, verbose_name='用户')
     create_time = models.DateTimeField(default=timezone.now, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
@@ -63,7 +63,7 @@ class CommonCategory(models.Model):
     class Meta:
         db_table = 'common_category'
         verbose_name = verbose_name_plural = '通用类别'
-        unique_together = ('user', 'name', 'parent')
+        unique_together = ('name', 'user')
 
     def __str__(self):
         return self.name
@@ -100,3 +100,7 @@ FORMFIELD_FOR_DBFIELD_DEFAULTS[ConfigField] = {
     "form_class": FiledConfigFiled
 }
 
+FORMFIELD_FOR_DBFIELD_DEFAULTS[models.JSONField] = {
+    "widget": JSONWidget,
+    "form_class": FiledConfigFiled
+}

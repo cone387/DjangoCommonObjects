@@ -19,8 +19,13 @@ class CategoryForm(forms.ModelForm):
                 model=instance.model, user=instance.user
             ).exclude(id__in=foreign_key.get_related_object_ids(instance))
 
-    def is_valid(self):
-        return super().is_valid()
+    def clean(self):
+        cleaned_data = super().clean()
+        model = cleaned_data.get('model')
+        parent = cleaned_data.get('parent')
+        if model and parent and model != parent.model:
+            raise forms.ValidationError('所属模型不一致')
+        return cleaned_data
 
     class Meta:
         model = CommonCategory
