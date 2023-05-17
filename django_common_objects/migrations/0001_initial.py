@@ -4,7 +4,6 @@ import django_common_objects.fields
 import django_common_objects.models
 from django.conf import settings
 from django.db import migrations, models
-import django.db.models.deletion
 import django.utils.timezone
 
 
@@ -41,7 +40,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('model', models.CharField(max_length=30, verbose_name='所属模型')),
                 ('name', models.CharField(max_length=50, verbose_name='标签名')),
-                ('config', django_common_objects.fields.ConfigField(blank=True, default=django_common_objects.models.get_default_config('CommonTag'), null=True, verbose_name='详细')),
+                ('config', django_common_objects.fields.ConfigField(blank=True, null=True, verbose_name='详细')),
                 ('create_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='创建时间')),
                 ('update_time', models.DateTimeField(auto_now=True, verbose_name='更新时间')),
                 ('user', models.ForeignKey(db_constraint=False, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='用户')),
@@ -59,7 +58,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('model', models.CharField(max_length=30, verbose_name='所属模型')),
                 ('name', models.CharField(max_length=50, verbose_name='名称')),
-                ('config', django_common_objects.fields.ConfigField(blank=True, default=django_common_objects.models.get_default_config('CommonCategory'), null=True, verbose_name='详细')),
+                ('config', django_common_objects.fields.ConfigField(blank=True, null=True, verbose_name='详细')),
                 ('create_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='创建时间')),
                 ('update_time', models.DateTimeField(auto_now=True, verbose_name='更新时间')),
                 ('parent', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='django_common_objects.commoncategory', verbose_name='父类别')),

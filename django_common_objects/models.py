@@ -7,21 +7,9 @@ from .fields import ConfigField
 from .widgets import JSONWidget
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.forms import fields as _form_fields
-from django.utils.deconstruct import deconstructible
 
 
 UserModel = get_user_model()
-
-
-@deconstructible
-class get_default_config:
-
-    def __init__(self, model):
-        self.model = model
-
-    def __call__(self):
-        fields = CommonFieldConfig.objects.filter(model=self.model).values_list('key', 'value')
-        return {k: v for k, v in fields}
 
 
 class CommonFieldConfig(models.Model):
@@ -51,7 +39,7 @@ class CommonCategory(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, db_constraint=False, on_delete=models.CASCADE,
                                related_name='children', verbose_name='父类别')
     name = models.CharField(max_length=50, verbose_name='名称')
-    config = models.JSONField(default=get_default_config('CommonCategory'), blank=True, null=True, verbose_name='详细')
+    config = ConfigField(blank=True, null=True, verbose_name='详细')
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, db_constraint=False, verbose_name='用户')
     create_time = models.DateTimeField(default=timezone.now, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
@@ -75,7 +63,7 @@ class CommonTag(models.Model):
     id = models.AutoField(primary_key=True)
     model = models.CharField(max_length=100, verbose_name='所属模型')
     name = models.CharField(max_length=50, verbose_name='标签名')
-    config = ConfigField(default=get_default_config('CommonTag'), blank=True, null=True, verbose_name='详细')
+    config = ConfigField(blank=True, null=True, verbose_name='详细')
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, db_constraint=False, verbose_name='用户')
     create_time = models.DateTimeField(default=timezone.now, verbose_name='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')

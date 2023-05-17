@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='commoncategory',
             name='config',
-            field=models.JSONField(blank=True, default=django_common_objects.models.get_default_config('CommonCategory'), null=True, verbose_name='详细'),
+            field=models.JSONField(blank=True, null=True, verbose_name='详细'),
         ),
     ]
