@@ -26,4 +26,5 @@ class CharField(models.Field):
 class ConfigField(models.JSONField):
 
     def __init__(self, **kwargs):
-        super().__init__(encoder=DatetimeJsonEncoder, **kwargs)
+        encoder = kwargs.pop('encoder', DatetimeJsonEncoder)
+        super().__init__(encoder=encoder, **kwargs)
